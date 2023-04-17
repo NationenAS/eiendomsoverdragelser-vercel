@@ -16,7 +16,7 @@ function clean(data) {
         if (d.Property.Sale.Type == "Uskiftebevilling") return // Skip, not relevant
 
         let id = d.Property.Sale.Id
-        let xy = d.Property.StreetAddress.Coordinate ? [parseFloat(d.Property.StreetAddress.Coordinate.Latitude).toFixed(5), parseFloat(d.Property.StreetAddress.Coordinate.Longitude).toFixed(5)] : null
+        let xy = d.Property.StreetAddress.Coordinate ? [d.Property.StreetAddress.Coordinate.Latitude, d.Property.StreetAddress.Coordinate.Longitude] : null
         let address = d.Property.StreetAddress.StreetName ? d.Property.StreetAddress.StreetName + " " + d.Property.StreetAddress.HouseNumber : null
         let mn = d.Property.Sale.NewsletterFormatText.split(";")
         let mnFormat = mn[9] + "-" + mn[10] + "/" + mn[11] + "/" + mn[12] + "/" + mn[13]
