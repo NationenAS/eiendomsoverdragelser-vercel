@@ -1,6 +1,9 @@
+const Bot = require("./bot.js");
+
+let now = new Date().toLocaleString('nb-NO')
+
 function clean(data) {
     let sales = []
-    let now = new Date().toLocaleString('nb-NO')
     console.log(`${now}: Got ${data.Hits.length} hits from 1881`)
     
     function getFromTo(string) {
@@ -74,8 +77,14 @@ async function load(fromDate, toDate) {
             fetch(url)
             .then(resp => resp.json())
             .then(data => clean(data))
-            .then(cleaned => resolve(cleaned))
-            .catch(err => reject(err))
+            .then(cleaned => { // Success
+                Bot.send(`${now}: Hentet ${cleaned.length} salg.`)
+                resolve(cleaned) 
+            })
+            .catch(err => { // Fail
+                Bot.send(err)
+                reject(err)
+            })
         ))
     }
 
