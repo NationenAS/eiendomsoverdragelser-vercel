@@ -2,6 +2,7 @@ const Bot = require("./bot.js");
 
 let now = new Date().toLocaleString('nb-NO')
 
+// Clean data from 1881
 function clean(data) {
     let sales = []
     console.log(`${now}: Got ${data.Hits.length} hits from 1881`)
