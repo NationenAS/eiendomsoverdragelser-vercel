@@ -2,6 +2,8 @@ const Loader = require('../loader')
 
 export default async function handler(req, res) {
 
+    /* SERVER */
+
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true)
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -11,7 +13,8 @@ export default async function handler(req, res) {
     // Enable cache
     res.setHeader('Cache-Control', 's-maxage=43200') // 12 hours
 
-    // ----- //
+
+    /* CONTENT */
     
     // From and to (yyyy-mm-dd)
     let toDate = new Date()
@@ -20,9 +23,9 @@ export default async function handler(req, res) {
     fromDate.setDate(toDate.getDate() - 60)
     let fromDateFormatted = toDate.toISOString().slice(0, 10)
 
-    // Load
-    let sales = await Loader.load(fromDateFormatted, toDateFormatted)
+    // Load sales
+    let allSales = await Loader.load(fromDateFormatted, toDateFormatted)
 
-    // Print
-    res.send(sales)
+    res.send(allSales)
+
 }

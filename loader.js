@@ -1,4 +1,4 @@
-const Bot = require("./bot.js");
+const Bot = require("./bot.js")
 
 let now = new Date().toLocaleString('nb-NO')
 
@@ -79,8 +79,8 @@ async function load(fromDate, toDate) {
             .then(resp => resp.json())
             .then(data => clean(data))
             .then(cleaned => { // Success
-                Bot.send(`${now}: Hentet ${cleaned.length} salg.`)
-                resolve(cleaned) 
+                // Bot.send(`${now}: Hentet ${cleaned.length} salg.`)
+                resolve(cleaned)
             })
             .catch(err => { // Fail
                 Bot.send(err)

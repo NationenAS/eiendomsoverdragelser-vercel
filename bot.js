@@ -1,8 +1,9 @@
-const base = "https://graph.workplace.com/group/feed?access_token=DQVJ0cmJTdWZAhTXNOdWV2SHdrSGZAONmp0MFVhOVpTb2V2U2c2U1RTRjFiX3BSTzhCWF8wZAW8yYk94cmNpM2pGdWlIT3k0c1JOTHBYc0wxV1lORy1YVjJGTi1LR1IwNXNvMGFjNXd1Y1B3MEtNT0tvWEd4MWhnUGlLN0w5N3FCOVRTaGduRXRISFdFei1KbFF3cTZAlckZARS0hCMUhzaEhqU0ZAFWDVMMEw5V3dYWWY3YXFjUkd4ajRJM3pVWlFYYW5HczV4dldn&message="
+const base = "https://graph.workplace.com/group/feed?access_token=DQVJzZAFlJWjVmVmVESDZAvQXpyYmtRcTZA3dUtyQmRTWnNqTFF6OGk3SXdKUlBkZAG9PWGxndW93dS1LSzZAIYlo0RExoY0trVXVOQ3FvX1FLT2FaNTVlSTZAmY1E4WWY1RVl6T2tZAblpSSVVzSll0Y2hKUXphbDNCYzBOZAU1lQ2JUN0xsb0dZAVFAxaF9obHZAJMFlFdkFWVE5NMHlLV0RWbGRRZAGt3ZAEFRYjhzMVlGVlVJNnBBbnhKZAlEwUzZARQmdXNjVlXzZAYVlhn&message="
 
-function send(msg) {
+async function send(msg) {
     let url = base + msg
-    fetch(url, { method: "POST" }).catch(err => console.log(err))
+    let cmd = await fetch(url, { method: "POST" }).then(r => r.json()).then(d => d).catch(e => console.error(e))
+    return cmd
 }
 
 module.exports = { send }
