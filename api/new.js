@@ -4,6 +4,9 @@ const { kv } = require("@vercel/kv")
 
 export default async function handler(req, res) {
 
+    const thresholdPrice = 8000000
+    const thresholdArea = 5000
+
     // Check for new sales, return sales and new sales
     async function getNew(sales) {
         let oldSales = await kv.get("sales")
@@ -38,7 +41,7 @@ export default async function handler(req, res) {
         console.log("Checking significance of " + sales.new.length + " new objects.")
         let newSales = sales.new.map((n,i) => {
             return getArea(n, i).then(sale => {
-                if (sale.sale.price > 5000000 || sale.area > 1000) {
+                if (sale.sale.price > thresholdPrice || sale.area > thresholdArea) {
                     return `Ny: https://eiendomsoverdragelser.vercel.app/?id=${sale.sale.saleId}. ${sale.sale.price.toLocaleString('nb-NO')} kr / ${sale.area} mål | `
                 }
                 else {
