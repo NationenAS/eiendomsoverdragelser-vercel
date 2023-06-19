@@ -42,7 +42,7 @@ export default async function handler(req, res) {
         let newSales = sales.new.map((n,i) => {
             return getArea(n, i).then(sale => {
                 if (sale.sale.price > thresholdPrice || sale.area > thresholdArea) {
-                    return `Ny: https://eiendomsoverdragelser.vercel.app/?id=${sale.sale.saleId}. ${sale.sale.price.toLocaleString('nb-NO')} kr / ${sale.area} mål | `
+                    return `Ny gård solgt for ${sale.sale.price.toLocaleString('nb-NO')} kr, på ${sale.area} mål (https://eiendomsoverdragelser.vercel.app/?id=${sale.sale.saleId}).`
                 }
                 else {
                     return null
@@ -65,7 +65,8 @@ export default async function handler(req, res) {
 
     const newChecked = await checkSignificant(newSales)
     const significant = newChecked.significant.filter(s => s != null)
-    const bot = await Bot.send(significant.toString())
+    const joined = significant.join(" • ")
+    const bot = joined != "" ? await Bot.send(joined) : "No new sales."
     console.log(bot)
     const setSales = await setAll(newSales)
 
