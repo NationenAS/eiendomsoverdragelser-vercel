@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         return { sale: sale, area: area}
     }
 
-    // Check new sales for price or area and log, return array of new sales
+    // Check new sales for price or area, return sales and array of new sales
     async function checkSignificant(sales) {
         console.log("Checking significance of " + sales.new.length + " new objects.")
         let newSales = sales.new.map((n,i) => {
@@ -54,22 +54,23 @@ export default async function handler(req, res) {
     }
 
     // Run
-
+    // Get all sales
     const allSales = await fetch("https://eiendomsoverdragelser-vercel.vercel.app/api/sales").then(r => r.json()).catch(e => console.log(e))
+    // Filter by new sales
     const newSales = await getNew(allSales)
 
     if (newSales.new.length == 0) {
-        const setSales = setAll(newSales)
-        res.send(setSales.status)
+        return res.send("No new sales.")
     }
-
-    const newChecked = await checkSignificant(newSales)
-    const significant = newChecked.significant.filter(s => s != null)
-    const joined = significant.join(" • ")
-    const bot = joined != "" ? await Bot.send(joined) : "No new sales."
-    console.log(bot)
-    const setSales = await setAll(newSales)
-
-    return res.send(setSales.status)
+    else {
+        const newChecked = await checkSignificant(newSales)
+        const significant = newChecked.significant.filter(s => s != null)
+        const joined = significant.join(" • ")
+        const bot = joined != "" ? await Bot.send(joined) : "No new significant sales."
+        console.log(bot)
+        const setSales = await setAll(newSales)
+    
+        return res.send(setSales.status)
+    }
 
 }
